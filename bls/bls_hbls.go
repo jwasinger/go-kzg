@@ -69,6 +69,22 @@ func StrG1(v *G1Point) string {
 	return (*hbls.G1)(v).GetString(10)
 }
 
+func FpToPaddedHex(v *hbls.Fp) string {
+    hexStr := fmt.Sprintf("%s", v.GetString(16))
+    for ; len(hexStr) < 96; {
+        hexStr = "0" + hexStr
+    }
+
+    return hexStr
+}
+
+func HexG1(v *G1Point) string {
+    // TODO NEED TO PAD
+    x := ((*hbls.G1)(v)).X
+    y := ((*hbls.G1)(v)).Y
+    return fmt.Sprintf("%s%s", FpToPaddedHex(&x), FpToPaddedHex(&y))
+}
+
 func NegG1(dst *G1Point) {
 	// in-place should be safe here (TODO double check)
 	hbls.G1Neg((*hbls.G1)(dst), (*hbls.G1)(dst))
