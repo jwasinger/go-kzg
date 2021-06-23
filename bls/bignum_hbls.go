@@ -5,6 +5,7 @@ package bls
 import (
 	hbls "github.com/herumi/bls-eth-go-binary/bls"
 	"unsafe"
+    "fmt"
 )
 
 func init() {
@@ -42,6 +43,19 @@ func FrTo32(src *Fr) (v [32]byte) {
 	}
 	copy(v[:], b)
 	return
+}
+
+func FrToPaddedHex(v *Fr) string {
+    hexStr := fmt.Sprintf("%s", ((*hbls.Fr)(v)).GetString(16))
+    for ; len(hexStr) < 64; {
+        hexStr = "0" + hexStr
+    }
+
+    return hexStr
+}
+
+func HexFr(v *Fr) string {
+    return fmt.Sprintf("%s", FrToPaddedHex(v))
 }
 
 func CopyFr(dst *Fr, v *Fr) {
